@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Home Work 1 - List</string>
+    <string name="toast">Ячейка %d</string>
 </resources>

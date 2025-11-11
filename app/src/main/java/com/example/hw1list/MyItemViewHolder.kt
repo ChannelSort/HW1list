@@ -9,7 +9,7 @@ class MyItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val item: TextView = itemView.findViewById(R.id.item)
 
-    fun bind(item: Item) {
+    fun bind(item: Item, onClick: (Int) -> Unit) {
         this.item.text = item.num.toString()
         val color = if (item.num % 2 == 0) {
             ContextCompat.getColor(itemView.context, R.color.red)
@@ -17,5 +17,6 @@ class MyItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             ContextCompat.getColor(itemView.context, R.color.blue)
         }
         this.item.setBackgroundColor(color)
+        this.item.setOnClickListener { onClick(item.num) }
     }
 }

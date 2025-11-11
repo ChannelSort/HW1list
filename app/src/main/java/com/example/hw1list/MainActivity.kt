@@ -1,6 +1,7 @@
 package com.example.hw1list
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MainActivity : ComponentActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var fab: FloatingActionButton
-    private val adapter: MyAdapter = MyAdapter()
+    lateinit var adapter: MyAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +20,9 @@ class MainActivity : ComponentActivity() {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager =
             GridLayoutManager(this, resources.getInteger(R.integer.column_count))
+        adapter = MyAdapter {
+            Toast.makeText(this, getString(R.string.toast, it), Toast.LENGTH_SHORT).show()
+        }
         recyclerView.adapter = adapter
 
         fab = findViewById(R.id.add_button)
@@ -28,11 +32,13 @@ class MainActivity : ComponentActivity() {
             adapter.update(newList)
         }
 
-        val saved = savedInstanceState?.getIntegerArrayList("items")
+
+        val saved = savedInstanceState?.getInt("count")
         if (saved != null) {
             val items = ArrayList<Item>()
-            for (num in saved) {
-                items.add(Item(num))
+            for (i in 0 until saved)
+            {
+                items.add(Item(i))
             }
             adapter.update(items)
         } else {
@@ -42,11 +48,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val numbs = ArrayList<Int>()
-        for (item in adapter.items) {
-            numbs.add(item.num)
-        }
-        outState.putIntegerArrayList("items", numbs)
+        outState.putInt("count", adapter.items.size)
     }
 
 }

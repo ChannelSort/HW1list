@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter() : RecyclerView.Adapter<MyItemViewHolder>() {
+class MyAdapter(
+    val onClick: (Int) -> Unit
+) : RecyclerView.Adapter<MyItemViewHolder>() {
 
     val items: ArrayList<Item> = ArrayList()
     private fun setItems(items: List<Item>) {
@@ -31,7 +33,7 @@ class MyAdapter() : RecyclerView.Adapter<MyItemViewHolder>() {
 
 
     override fun onBindViewHolder(holder: MyItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onClick)
     }
 
     override fun getItemCount(): Int {
